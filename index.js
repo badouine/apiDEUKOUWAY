@@ -17,25 +17,36 @@ app.use("/api/users", usersRoute);
 app.use("/api/hotels", hotelsRoute);
 app.use("/api/rooms", roomsRoute);
 
+app.use((err, req, res, next) => {
+  const errorStatus = err.status || 500;
+  const errorMessage = err.message || "Something went wrong";
+
+  return res.status(errorStatus).json({
+    success: false,
+    status: errorStatus,
+    message: errorMessage,
+    stack: err.stack,
+  });
+});
+
 const connect = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO);
-        console.log("Connected to MONGODB");
-    } catch (error) {
-        throw error ;
-    }
+  try {
+    await mongoose.connect(process.env.MONGO);
+    console.log("Connected to MONGODB");
+  } catch (error) {
+    throw error;
+  }
 };
 
 mongoose.connection.on("disconnected", () => {
-    console.log("mongoDB disconnected");
-})
+  console.log("mongoDB disconnected");
+});
 
 mongoose.connection.on("connected", () => {
-    console.log("mongoDB connected");
-})
-
+  console.log("mongoDB connected");
+});
 
 app.listen(8800, () => {
-    connect();
-    console.log("Connected to backend server");
-})
+  connect();
+  console.log("Connected to backend server");
+});
