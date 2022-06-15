@@ -17,6 +17,10 @@ router.get("/checkuser/:id", verifyUser, (req, res, next) => {
   res.send("you are logged in! always");
 });
 
+router.get("/checkadmin/:id", verifyUser, (req, res, next) => {
+  res.send("you are logged in! you can delete all accounts");
+});
+
 // UPDATE
 router.put("/:id", updateUser);
 
