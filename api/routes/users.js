@@ -5,7 +5,7 @@ import {
   getUser,
   getUsers,
 } from "../controllers/user.js";
-import { verifyToken, verifyUser } from "../utils/verifyToken.js";
+import { verifyAdmin, verifyToken, verifyUser } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
@@ -17,7 +17,7 @@ router.get("/checkuser/:id", verifyUser, (req, res, next) => {
   res.send("you are logged in! always");
 });
 
-router.get("/checkadmin/:id", verifyUser, (req, res, next) => {
+router.get("/checkadmin/:id", verifyAdmin, (req, res, next) => {
   res.send("you are logged in! you can delete all accounts");
 });
 
