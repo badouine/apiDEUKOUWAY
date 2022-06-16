@@ -3,13 +3,15 @@ import {
   createRoom,
   deleteRoom,
   getRooms,
+  getRoom,
   updateRoom,
-} from "../controllers/room";
+} from "../controllers/room.js";
+import { verifyAdmin } from "../utils/verifyToken.js";
 
 const router = express.Router();
 
 // CREATE
-router.post("/", verifyAdmin, createRoom);
+router.post("/:hotelid", verifyAdmin, createRoom);
 
 // UPDATE
 router.put("/:id", verifyAdmin, updateRoom);
@@ -20,7 +22,7 @@ router.delete("/:id", verifyAdmin, deleteRoom);
 
 // GET
 
-router.get("/:id", getRooms);
+router.get("/:id", getRoom);
 
 // GET ALL
 
