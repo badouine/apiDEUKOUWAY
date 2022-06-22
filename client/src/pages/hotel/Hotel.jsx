@@ -24,7 +24,14 @@ const Hotel = () => {
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
   const { dates } = useContext(SearchContext);
 
-  console.log(dates);
+  const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
+  function dayDifference(date1, date2) {
+    const timeDiff = Math.abs(date2.getTime() - date1.getTime());
+    const diffDays = Math.ceil(timeDiff / MILLISECONDS_PER_DAY);
+    return diffDays;
+  }
+
+  console.log(dayDifference(dates[0].endDate, dates[0].startDate));
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
