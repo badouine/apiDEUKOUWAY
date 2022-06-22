@@ -13,6 +13,8 @@ import { useState } from "react";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { useLocation } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
+import { useContext } from "react";
+import { SearchContext } from "../../context/SearchContext";
 const Hotel = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
@@ -20,8 +22,9 @@ const Hotel = () => {
   const [open, setOpen] = useState(false);
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
+  const { dates } = useContext(SearchContext);
 
-
+  console.log(dates);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -99,9 +102,7 @@ const Hotel = () => {
             <div className="hotelDetails">
               <div className="hotelDetailsTexts">
                 <h1 className="hotelTitle">{data.title}</h1>
-                <p className="hotelDesc">
-                  {data.desc}
-                </p>
+                <p className="hotelDesc">{data.desc}</p>
               </div>
               <div className="hotelDetailsPrice">
                 <h1>Perfect for a 9-night stay!</h1>
