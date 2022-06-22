@@ -15,9 +15,16 @@ const List = () => {
   const [date, setDate] = useState(location.state.date);
   const [openDate, setOpenDate] = useState(false);
   const [options, setOptions] = useState(location.state.options);
+  const [min, setMin] = useState(undefined);
+  const [max, setMax] = useState(undefined);
+
   const { data, loading, error, refetch } = useFetch(
-    `/hotels?city=${destination}`
+    `/hotels?city=${destination}&min=${min || 0}&max=${max || 999}`
   );
+
+  const handleClick = () => {
+    refetch();
+  };
 
   return (
     <div>
@@ -52,15 +59,23 @@ const List = () => {
               <div className="listOptions">
                 <div className="listOptionItem">
                   <span className="listOptionText">
-                    Min price<small> per night</small>
+                    Min price<small> par nuit</small>
                   </span>
-                  <input type="number" className="listOptionInput"></input>
+                  <input
+                    type="number"
+                    onChange={(e) => setMin(e.target.value)}
+                    className="listOptionInput"
+                  ></input>
                 </div>
                 <div className="listOptionItem">
                   <span className="listOptionText">
-                    Max price<small> per night</small>
+                    Max price<small> par nuit</small>
                   </span>
-                  <input type="number" className="listOptionInput"></input>
+                  <input
+                    type="number"
+                    onChange={(e) => setMax(e.target.value)}
+                    className="listOptionInput"
+                  ></input>
                 </div>
                 <div className="listOptionItem">
                   <span className="listOptionText">Adult</span>
@@ -91,7 +106,7 @@ const List = () => {
                 </div>
               </div>
             </div>
-            <button>Search</button>
+            <button onClick={handleClick}>Search</button>
           </div>
           <div className="listResult">
             {loading ? (
@@ -99,7 +114,7 @@ const List = () => {
             ) : (
               <>
                 {data.map((item) => (
-                  <SearchItem item={item} key={item._id}/>
+                  <SearchItem item={item} key={item._id} />
                 ))}
               </>
             )}
@@ -111,5 +126,3 @@ const List = () => {
 };
 
 export default List;
-{
-}
