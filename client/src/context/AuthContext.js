@@ -45,9 +45,9 @@ export const AuthContextProvider = ({ children }) => {
   return (
     <AuthContext.Provider
       value={{
-        city: state.city,
-        dates: state.dates,
-        options: state.options,
+        user: state.user,
+        laoding: state.loading,
+        error: state.error,
         dispatch,
       }}
     >
