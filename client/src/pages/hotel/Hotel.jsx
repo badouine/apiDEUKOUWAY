@@ -117,7 +117,7 @@ const Hotel = () => {
                   Situe dans l'embourchure Thies-Mbour II , elle fera votre bonheur a coup sure !
                 </span>
                 <h2>
-                  <b>${days * data.cheapestPrice * options.room}</b> ({days} nuits)
+                  <b>{days * data.cheapestPrice * options.room}F</b> ({days} nuits)
                 </h2>
                 <button>Reservez maintenant!</button>
               </div>
