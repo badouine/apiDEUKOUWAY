@@ -11,18 +11,23 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useFetch from "../../hooks/useFetch";
 import { useContext } from "react";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
+import Reserve from "../../components/reserve/Reserve";
 const Hotel = () => {
   const location = useLocation();
   const id = location.pathname.split("/")[2];
   const [slideNumber, setSlideNumber] = useState(0);
   const [open, setOpen] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
 
   const { data, loading, error } = useFetch(`/hotels/find/${id}`);
-  const { dates , options} = useContext(SearchContext);
+  const { dates, options } = useContext(SearchContext);
+  const { user } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   const MILLISECONDS_PER_DAY = 1000 * 60 * 60 * 24;
   function dayDifference(date1, date2) {
@@ -31,7 +36,7 @@ const Hotel = () => {
     return diffDays;
   }
 
-  const days = (dayDifference(dates[0].endDate, dates[0].startDate));
+  const days = dayDifference(dates[0].endDate, dates[0].startDate);
   const handleOpen = (i) => {
     setSlideNumber(i);
     setOpen(true);
@@ -45,6 +50,14 @@ const Hotel = () => {
       newSlideNumber = slideNumber === 5 ? 0 : slideNumber + 1;
     }
     setSlideNumber(newSlideNumber);
+  };
+
+  const handleClick = () => {
+    if (user) {
+      setOpenModal(true);
+    } else {
+      navigate("/login");
+    }
   };
   return (
     <div>
@@ -114,12 +127,14 @@ const Hotel = () => {
               <div className="hotelDetailsPrice">
                 <h1>Parfait pour restez {days}-nuit!</h1>
                 <span>
-                  Situe dans l'embourchure Thies-Mbour II , elle fera votre bonheur a coup sure !
+                  Situe dans l'embourchure Thies-Mbour II , elle fera votre
+                  bonheur a coup sure !
                 </span>
                 <h2>
-                  <b>{days * data.cheapestPrice * options.room}F</b> ({days} nuits)
+                  <b>{days * data.cheapestPrice * options.room}F</b> ({days}{" "}
+                  nuits)
                 </h2>
-                <button>Reservez maintenant!</button>
+                <button onClick={handleClick}>Reservez maintenant!</button>
               </div>
             </div>
           </div>
@@ -127,6 +142,7 @@ const Hotel = () => {
           <Footer />
         </div>
       )}
+      {openModal && <Reserve setOpen={setOpenModal} hotelId = {id}/>}
     </div>
   );
 };

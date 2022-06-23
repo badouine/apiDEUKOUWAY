@@ -16,6 +16,7 @@ import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 import { useNavigate } from "react-router-dom";
 import { SearchContext } from "../../context/SearchContext";
+import { AuthContext } from "../../context/AuthContext";
 
 const Header = ({ type }) => {
   const [openDate, setOpenDate] = useState("");
@@ -36,6 +37,7 @@ const Header = ({ type }) => {
   });
 
   const navigate = useNavigate();
+  const { user } = useContext(AuthContext);
 
   const handleOption = (name, operation) => {
     setOptions((prev) => {
@@ -63,7 +65,7 @@ const Header = ({ type }) => {
         <div className="headerList">
           <div className="headerListItem active">
             <FontAwesomeIcon icon={faBed} />
-            <span>Confortable</span>
+            <span>Confort</span>
           </div>
           <div className="headerListItem">
             <FontAwesomeIcon icon={faPlane} />
@@ -90,7 +92,7 @@ const Header = ({ type }) => {
             <p className="headerDesc">
               Contactez directement le proprietaire , et prenez vos clefs .
             </p>
-            <button className="headerBtn"> Enregistrement / Connexion </button>
+            {!user && <button className="headerBtn"> Enregistrement / Connexion </button>}
             <div className="headerSearch">
               <div className="headerSearchItem">
                 <FontAwesomeIcon icon={faBed} className="headerIcon" />
@@ -132,7 +134,7 @@ const Header = ({ type }) => {
                 {openOptions && (
                   <div className="options">
                     <div className="optionItem">
-                      <span className="optionText">Magg</span>
+                      <span className="optionText">Adultes</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.adult <= 1}
@@ -153,7 +155,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Xale</span>
+                      <span className="optionText">Enfants</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.children <= 0}
@@ -174,7 +176,7 @@ const Header = ({ type }) => {
                       </div>
                     </div>
                     <div className="optionItem">
-                      <span className="optionText">Neg</span>
+                      <span className="optionText">Chambre</span>
                       <div className="optionCounter">
                         <button
                           disabled={options.room <= 1}
