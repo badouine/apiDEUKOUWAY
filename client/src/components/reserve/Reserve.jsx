@@ -1,5 +1,6 @@
 import { faCircleXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import useFetch from "../../hooks/useFetch";
@@ -27,7 +28,7 @@ const Reserve = ({ setOpen, hotelId }) => {
     const isFound = roomNumber.unavailableDates.some((date) =>
       alldates.includes(new Date(date).getTime())
     );
-    return !isFound
+    return !isFound;
   };
   const handleSelect = (e) => {
     const checked = e.target.checked;
@@ -39,7 +40,20 @@ const Reserve = ({ setOpen, hotelId }) => {
     );
   };
 
-  const handleClick = () => {};
+  const handleClick = async () => {
+    try {
+      await Promise.all(
+        selectedRooms.map((roomId) => {
+          const res = axios.put(`/rooms/availability/${roomId}`, {
+            dates: alldates,
+          });
+          return res.data;
+        })
+      );
+      setOpen(false);
+    } catch (err) {}
+  };
+
   return (
     <div className="reserve">
       <div className="rContainer">
