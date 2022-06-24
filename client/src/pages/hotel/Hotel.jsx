@@ -94,18 +94,18 @@ const Hotel = () => {
             </div>
           )}
           <div className="hotelWrapper">
-            <button className="bookNow">Reserve or Book Now!</button>
+            <button className="bookNow">Reservez ou livrez!</button>
             <h1 className="hotelTitle">{data.name}</h1>
             <div className="hotelAddress">
               <FontAwesomeIcon icon={faLocationDot} />
               <span>{data.address}</span>
             </div>
             <span className="hotelDistance">
-              Excellent location ~ {data.distance}m from center
+              Excellente location ~ {data.distance}m depuis le centre-ville
             </span>
             <span className="hotelPriceHighlight">
-              Book a stay over ${data.cheapestPrice} at this property and get a
-              free airport taxi
+              LIvrez et prenez ${data.cheapestPrice} dans cette proprietee
+              libre service Taxi
             </span>
             <div className="hotelImages">
               {data.photos?.map((photo, i) => (
