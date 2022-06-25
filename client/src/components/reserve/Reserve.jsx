@@ -73,6 +73,7 @@ const Reserve = ({ setOpen, hotelId }) => {
               </div>
               <div className="rPrice">{item.price}</div>
             </div>
+            <div className="rSelectRooms">
             {item.roomNumbers.map((roomNumber) => (
               <div className="room">
                 <label>{roomNumber.number}</label>
@@ -84,6 +85,7 @@ const Reserve = ({ setOpen, hotelId }) => {
                 />
               </div>
             ))}
+            </div>
           </div>
         ))}
         <button onClick={handleClick} className="rButton">Reservez maintenant!</button>
