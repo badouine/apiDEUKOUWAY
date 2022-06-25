@@ -5,6 +5,7 @@ import { useContext, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
 import useFetch from "../../hooks/useFetch";
 import "./reserve.css";
+import { useNavigate } from "react-router-dom";
 
 const Reserve = ({ setOpen, hotelId }) => {
   const [selectedRooms, setSelectedRooms] = useState([]);
@@ -40,6 +41,8 @@ const Reserve = ({ setOpen, hotelId }) => {
     );
   };
 
+  const navigate = useNavigate();
+
   const handleClick = async () => {
     try {
       await Promise.all(
@@ -51,6 +54,7 @@ const Reserve = ({ setOpen, hotelId }) => {
         })
       );
       setOpen(false);
+      navigate("/");
     } catch (err) {}
   };
 
@@ -74,21 +78,23 @@ const Reserve = ({ setOpen, hotelId }) => {
               <div className="rPrice">{item.price}</div>
             </div>
             <div className="rSelectRooms">
-            {item.roomNumbers.map((roomNumber) => (
-              <div className="room">
-                <label>{roomNumber.number}</label>
-                <input
-                  type="checkbox"
-                  value={roomNumber._id}
-                  onChange={handleSelect}
-                  disabled={!isAvailable(roomNumber)}
-                />
-              </div>
-            ))}
+              {item.roomNumbers.map((roomNumber) => (
+                <div className="room">
+                  <label>{roomNumber.number}</label>
+                  <input
+                    type="checkbox"
+                    value={roomNumber._id}
+                    onChange={handleSelect}
+                    disabled={!isAvailable(roomNumber)}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         ))}
-        <button onClick={handleClick} className="rButton">Reservez maintenant!</button>
+        <button onClick={handleClick} className="rButton">
+          Reservez maintenant!
+        </button>
       </div>
     </div>
   );
